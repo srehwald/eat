@@ -2,11 +2,16 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <time.h>
 
 int main(int argc, char *argv[]) {
     int c;
 
     opterr = 0;
+
+    // get current date
+    time_t t = time(NULL);
+    struct tm date = *localtime(&t);
 
     /*
      * concepts partially adopted from:
@@ -17,7 +22,12 @@ int main(int argc, char *argv[]) {
         if ((c = getopt(argc, argv, "d:")) != -1) {
             switch (c) {
                 case 'd':
-                    printf("date: %s\n", optarg);
+                    // check if date conforms to required format
+                    if (strptime(optarg, "%Y-%m-%d", &date) == NULL) {
+                        fprintf(stderr, "Format of date '%s' is wrong. Required format: yyyy-mm-dd\n", optarg);
+                        return 1;
+                    }
+                    //printf("%d-%d-%d\n", date.tm_year+1900, date.tm_mon+1, date.tm_mday);
                     break;
                 case '?':
                     if (optopt == 'd')
