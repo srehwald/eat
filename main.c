@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <time.h>
+#include <string.h>
 
 int main(int argc, char *argv[]) {
     int c;
@@ -12,6 +13,10 @@ int main(int argc, char *argv[]) {
     // get current date
     time_t t = time(NULL);
     struct tm date = *localtime(&t);
+
+    const char *locations[] = {"mensa-garching","mensa-arcisstrasse","stubistro-grosshadern"};
+    const int locations_len = sizeof(locations) / sizeof(locations[0]);
+    char *location = NULL;
 
     /*
      * concepts partially adopted from:
@@ -43,11 +48,30 @@ int main(int argc, char *argv[]) {
                     abort();
             }
         } else {
-            // Regular argument
-            printf("arg: %s\n", argv[optind]);
+            // check if the first non-option arg is a location name. Any other non-option args will be ignored
+            if (location == NULL) {
+                int i;
+                // check if location name is in array of available locations
+                for (i = 0; i < locations_len; i++) {
+                    if (strcmp(locations[i], argv[optind]) == 0) {
+                        location = argv[optind];
+                        break;
+                    }
+                }
+                // if the passed location could'nt be found and therefore the variable isn't set return an error
+                if (location == NULL) {
+                    fprintf(stderr, "Location '%s' not found.\n", argv[optind]);
+                    return 0;
+                }
+            }
+
             optind++;
         }
     }
+
+    char date_str[80];
+    strftime(date_str,80,"%Y-%m-%d", &date);
+    printf("Menu for '%s' on '%s':\n", location, date_str);
 
     return 0;
 }
