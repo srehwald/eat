@@ -1,0 +1,11 @@
+language: c
+
+before_script:
+  - mkdir build
+  - cd build
+  - cmake ..
+
+script:
+  - make
+  - cd build
+  - ls -la
