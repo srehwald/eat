@@ -1,8 +1,11 @@
 language: c
 
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get cmake
+  - sudo apt-get install software-properties-common
+  - sudo add-apt-repository ppa:george-edison55/cmake-3.x
+  - sudo apt-get update
+  - sudo apt-get install cmake
+  - cmake --version
 
 before_script:
   - mkdir build
@@ -11,5 +14,4 @@ before_script:
 
 script:
   - make
-  - cd build
   - ls -la
