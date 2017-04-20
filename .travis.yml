@@ -1,10 +1,1 @@
-language: c
-
-before_script:
-  - mkdir build
-  - cd build
-  - cmake ..
-
-script:
-  - make
-  - ls -la
+language: go
