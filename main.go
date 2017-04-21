@@ -32,7 +32,7 @@ const format = "2006-01-02"
 const api = "https://srehwald.github.io/stwm-mensa-api/"
 var currentDate = time.Now()
 
-
+// TODO make more generic for different locations from different APIs
 func getMenu(location string, date time.Time) (*Menu, error) {
     year := strconv.Itoa(date.Year())
     _, w := date.ISOWeek()
@@ -77,11 +77,27 @@ func main() {
     var location = args[0]
 
     fmt.Println("Menu for '"+ location+ "' on '" + date.Format(format) + "':")
+    // TODO error message, if location is wrong
     menu, err := getMenu(location, date)
 
-    // TODO get correct date
-    day := menu.Days[0]
+    // find correct day given the date
+    var day Day
+    var foundDay = false
+    for _, d := range menu.Days {
+        if d.Date == *dateArg {
+            day = d
+            foundDay = true
+            break
+        }
+    }
 
+    if !foundDay {
+        fmt.Println("Could not find menu for your date '" + *dateArg + "'.")
+        os.Exit(0)
+    }
+
+    // TODO handle self service: price contains string!
+    // print menu
     for _, dish := range day.Dishes {
         fmt.Println(dish.Name + ": " + strconv.FormatFloat(dish.Price, 'f', -1, 64) + "€")
     }
