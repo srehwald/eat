@@ -9,6 +9,7 @@ import (
     "strconv"
     "encoding/json"
     "io/ioutil"
+    "reflect"
 )
 
 type Menu struct {
@@ -67,6 +68,7 @@ func getMenu(location string, date time.Time) (*Menu, error) {
 
 
 func main() {
+    // TODO show available location in help menu
 
     dateArg := flag.String("date", currentDate.Format(format), "date of the menu")
 
@@ -86,9 +88,13 @@ func main() {
     var location = args[0]
 
     fmt.Println("Menu for '"+ location+ "' on '" + date.Format(format) + "':")
+
     // TODO error message, if location is wrong
-    // TODO handle possible error
     menu, err := getMenu(location, date)
+    if err != nil {
+        fmt.Println("Error: Could not get menu.")
+        os.Exit(1)
+    }
 
     // find correct day given the date
     var day Day
