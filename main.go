@@ -27,29 +27,38 @@ type Dish struct {
     Price float64 `json:"price"`
 }
 
-// TODO better format notation
 const format = "2006-01-02"
 const api = "https://srehwald.github.io/stwm-mensa-api/"
 var currentDate = time.Now()
 
 // TODO make more generic for different locations from different APIs
 func getMenu(location string, date time.Time) (*Menu, error) {
+    // convert year to string
     year := strconv.Itoa(date.Year())
+    // get week number
     _, w := date.ISOWeek()
+    // convert week number to string
     week := strconv.Itoa(w)
+    // add leading zero if necessary
+    if len(week) < 2 {
+        week = "0"+week
+    }
 
-    // TODO leading zeros
+    // build url
     url := api + location + "/" + year + "/" + week + ".json"
+    // make GET request
     res, err := http.Get(url)
     if err != nil {
         panic(err.Error())
     }
 
+    // read response body
     body, err := ioutil.ReadAll(res.Body)
     if err != nil {
         panic(err.Error())
     }
 
+    // parse body into struct
     var s = new(Menu)
     unmarshalErr := json.Unmarshal(body, &s)
 
@@ -78,6 +87,7 @@ func main() {
 
     fmt.Println("Menu for '"+ location+ "' on '" + date.Format(format) + "':")
     // TODO error message, if location is wrong
+    // TODO handle possible error
     menu, err := getMenu(location, date)
 
     // find correct day given the date
