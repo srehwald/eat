@@ -103,6 +103,16 @@ func dishesToString(day Day) (dishesStr string, maxLength int) {
     return dishesStr, maxLength
 }
 
+func findDay(date string, days []Day) (day Day, found bool) {
+    for _, d := range days {
+        if d.Date == date {
+            return d, true
+        }
+    }
+
+    return day, false
+}
+
 func main() {
 	// TODO show available location in help menu
 
@@ -141,16 +151,7 @@ func main() {
 	}
 
 	// find correct day given the date
-	var day Day
-	foundDay := false
-	for _, d := range menu.Days {
-		if d.Date == *dateArg {
-			day = d
-			foundDay = true
-			break
-		}
-	}
-
+	day, foundDay := findDay(*dateArg, menu.Days)
 	if !foundDay {
 		fmt.Println("Could not find menu for your date '" + *dateArg + "'.")
 		os.Exit(0)
