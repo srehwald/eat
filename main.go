@@ -66,7 +66,7 @@ func getMenu(location string, date time.Time) (*Menu, error) {
 	}
 
 	// parse body into struct
-	var s = new(Menu)
+	s := new(Menu)
 	unmarshalErr := json.Unmarshal(body, &s)
 
 	return s, unmarshalErr
@@ -85,13 +85,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	var args = flag.Args()
+	args := flag.Args()
 	if len(args) < 1 {
 		fmt.Println("Error: missing location")
 		os.Exit(1)
 	}
 
-	var location = args[0]
+	location := args[0]
     if Contains(location, Keys(locations)) {
         // get full location name
         location = locations[location]
@@ -111,7 +111,7 @@ func main() {
 
 	// find correct day given the date
 	var day Day
-	var foundDay = false
+	foundDay := false
 	for _, d := range menu.Days {
 		if d.Date == *dateArg {
 			day = d
@@ -125,7 +125,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	var hlineLength = len(message)
+	hlineLength := len(message)
 	dishesStr := ""
 	for _, dish := range day.Dishes {
 		var dishStr string
