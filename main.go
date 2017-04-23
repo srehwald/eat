@@ -30,6 +30,11 @@ type Dish struct {
 
 const format = "2006-01-02"
 const api = "https://srehwald.github.io/stwm-mensa-api/"
+var locations = map[string]string{
+	"mg": "mensa-garching",
+	"ma": "mensa-arcisstrasse",
+	"sg": "stubistro-grosshadern",
+}
 
 var currentDate = time.Now()
 
@@ -85,12 +90,19 @@ func main() {
 		fmt.Println("Error: missing location")
 		os.Exit(1)
 	}
+
 	var location = args[0]
+    if Contains(location, Keys(locations)) {
+        // get full location name
+        location = locations[location]
+    } else if !Contains(location, Values(locations)) {
+		fmt.Println("Location '" + location + "' not found.")
+		os.Exit(1)
+	}
 
 	message := "Menu for '" + location + "' on '" + date.Format(format) + "':"
 	fmt.Println(message)
 
-	// TODO error message, if location is wrong
 	menu, err := getMenu(location, date)
 	if err != nil {
 		fmt.Println("Error: Could not get menu.")
