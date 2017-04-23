@@ -30,8 +30,11 @@ type Dish struct {
 
 const format = "2006-01-02"
 const api = "https://srehwald.github.io/stwm-mensa-api/"
-// TODO allow shortcuts
-var locations = []string{"mensa-garching", "mensa-arcisstrasse", "stubistro-grosshadern"}
+var locations = map[string]string{
+	"mg": "mensa-garching",
+	"ma": "mensa-arcisstrasse",
+	"sg": "stubistro-grosshadern",
+}
 
 var currentDate = time.Now()
 
@@ -87,8 +90,12 @@ func main() {
 		fmt.Println("Error: missing location")
 		os.Exit(1)
 	}
+
 	var location = args[0]
-	if !Contains(location, locations) {
+    if Contains(location, Keys(locations)) {
+        // get full location name
+        location = locations[location]
+    } else if !Contains(location, Values(locations)) {
 		fmt.Println("Location '" + location + "' not found.")
 		os.Exit(1)
 	}
