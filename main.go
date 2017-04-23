@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"encoding/json"
 	"io/ioutil"
+	"strings"
 )
 
 type Menu struct {
@@ -86,7 +87,8 @@ func main() {
 	}
 	var location = args[0]
 
-	fmt.Println("Menu for '" + location + "' on '" + date.Format(format) + "':")
+	message := "Menu for '" + location + "' on '" + date.Format(format) + "':"
+	fmt.Println(message)
 
 	// TODO error message, if location is wrong
 	menu, err := getMenu(location, date)
@@ -111,6 +113,8 @@ func main() {
 		os.Exit(0)
 	}
 
+	var hlineLength = len(message)
+	dishesStr := ""
 	for _, dish := range day.Dishes {
 		var dishStr string
 
@@ -121,7 +125,7 @@ func main() {
 			dishStr = dish.Name + ": " + strconv.FormatFloat(price, 'f', -1, 64) + "€"
 		} else {
 			/*
-			if price is not float, it is most likely a string not containing the price, but something 
+			if price is not float, it is most likely a string not containing the price, but something
 			like "Self Service"
 			 */
 			priceStr, ok := dish.Price.(string)
@@ -132,7 +136,15 @@ func main() {
 				dishStr = dish.Name + ": Not available"
 			}
 		}
-
-		fmt.Println(dishStr)
+		if len(dishStr) > hlineLength {
+			hlineLength = len(dishStr)
+		}
+		dishesStr += "\n" + dishStr
 	}
+
+	// create and print horizontal line
+	hline := strings.Repeat("-", hlineLength)
+	fmt.Print(hline)
+	// print dishes
+	fmt.Println(dishesStr)
 }
