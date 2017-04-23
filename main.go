@@ -66,10 +66,51 @@ func getMenu(location string, date time.Time) (*Menu, error) {
 	}
 
 	// parse body into struct
-	var s = new(Menu)
+	s := new(Menu)
 	unmarshalErr := json.Unmarshal(body, &s)
 
 	return s, unmarshalErr
+}
+
+func dishesToString(day Day) (dishesStr string, maxLength int) {
+    for _, dish := range day.Dishes {
+        var dishStr string
+
+        // check if price is of type float64
+        price, ok := dish.Price.(float64)
+        if ok {
+            // if price is float, convert float to string
+            dishStr = dish.Name + ": " + strconv.FormatFloat(price, 'f', -1, 64) + "€"
+        } else {
+            /*
+            if price is not float, it is most likely a string not containing the price, but something
+            like "Self Service"
+             */
+            priceStr, ok := dish.Price.(string)
+            if ok {
+                dishStr = dish.Name + ": " + priceStr
+            } else {
+                // if price is neither float nor string, it is not available
+                dishStr = dish.Name + ": Not available"
+            }
+        }
+        if len(dishStr) > maxLength {
+            maxLength = len(dishStr)
+        }
+        dishesStr += "\n" + dishStr
+    }
+
+    return dishesStr, maxLength
+}
+
+func findDay(date string, days []Day) (day Day, found bool) {
+    for _, d := range days {
+        if d.Date == date {
+            return d, true
+        }
+    }
+
+    return day, false
 }
 
 func main() {
@@ -85,13 +126,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	var args = flag.Args()
+	args := flag.Args()
 	if len(args) < 1 {
 		fmt.Println("Error: missing location")
 		os.Exit(1)
 	}
 
-	var location = args[0]
+	location := args[0]
     if Contains(location, Keys(locations)) {
         // get full location name
         location = locations[location]
@@ -110,49 +151,17 @@ func main() {
 	}
 
 	// find correct day given the date
-	var day Day
-	var foundDay = false
-	for _, d := range menu.Days {
-		if d.Date == *dateArg {
-			day = d
-			foundDay = true
-			break
-		}
-	}
-
+	day, foundDay := findDay(*dateArg, menu.Days)
 	if !foundDay {
 		fmt.Println("Could not find menu for your date '" + *dateArg + "'.")
 		os.Exit(0)
 	}
 
-	var hlineLength = len(message)
-	dishesStr := ""
-	for _, dish := range day.Dishes {
-		var dishStr string
-
-		// check if price is of type float64
-		price, ok := dish.Price.(float64)
-		if ok {
-			// if price is float, convert float to string
-			dishStr = dish.Name + ": " + strconv.FormatFloat(price, 'f', -1, 64) + "€"
-		} else {
-			/*
-			if price is not float, it is most likely a string not containing the price, but something
-			like "Self Service"
-			 */
-			priceStr, ok := dish.Price.(string)
-			if ok {
-				dishStr = dish.Name + ": " + priceStr
-			} else {
-				// if price is neither float nor string, it is not available
-				dishStr = dish.Name + ": Not available"
-			}
-		}
-		if len(dishStr) > hlineLength {
-			hlineLength = len(dishStr)
-		}
-		dishesStr += "\n" + dishStr
-	}
+	hlineLength := len(message)
+	dishesStr, maxLength := dishesToString(day)
+    if maxLength > hlineLength {
+        hlineLength = maxLength
+    }
 
 	// create and print horizontal line
 	hline := strings.Repeat("-", hlineLength)
