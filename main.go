@@ -9,7 +9,6 @@ import (
     "strconv"
     "encoding/json"
     "io/ioutil"
-    "reflect"
 )
 
 type Menu struct {
