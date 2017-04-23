@@ -72,6 +72,37 @@ func getMenu(location string, date time.Time) (*Menu, error) {
 	return s, unmarshalErr
 }
 
+func dishesToString(day Day) (dishesStr string, maxLength int) {
+    for _, dish := range day.Dishes {
+        var dishStr string
+
+        // check if price is of type float64
+        price, ok := dish.Price.(float64)
+        if ok {
+            // if price is float, convert float to string
+            dishStr = dish.Name + ": " + strconv.FormatFloat(price, 'f', -1, 64) + "€"
+        } else {
+            /*
+            if price is not float, it is most likely a string not containing the price, but something
+            like "Self Service"
+             */
+            priceStr, ok := dish.Price.(string)
+            if ok {
+                dishStr = dish.Name + ": " + priceStr
+            } else {
+                // if price is neither float nor string, it is not available
+                dishStr = dish.Name + ": Not available"
+            }
+        }
+        if len(dishStr) > maxLength {
+            maxLength = len(dishStr)
+        }
+        dishesStr += "\n" + dishStr
+    }
+
+    return dishesStr, maxLength
+}
+
 func main() {
 	// TODO show available location in help menu
 
@@ -126,33 +157,10 @@ func main() {
 	}
 
 	hlineLength := len(message)
-	dishesStr := ""
-	for _, dish := range day.Dishes {
-		var dishStr string
-
-		// check if price is of type float64
-		price, ok := dish.Price.(float64)
-		if ok {
-			// if price is float, convert float to string
-			dishStr = dish.Name + ": " + strconv.FormatFloat(price, 'f', -1, 64) + "€"
-		} else {
-			/*
-			if price is not float, it is most likely a string not containing the price, but something
-			like "Self Service"
-			 */
-			priceStr, ok := dish.Price.(string)
-			if ok {
-				dishStr = dish.Name + ": " + priceStr
-			} else {
-				// if price is neither float nor string, it is not available
-				dishStr = dish.Name + ": Not available"
-			}
-		}
-		if len(dishStr) > hlineLength {
-			hlineLength = len(dishStr)
-		}
-		dishesStr += "\n" + dishStr
-	}
+	dishesStr, maxLength := dishesToString(day)
+    if maxLength > hlineLength {
+        hlineLength = maxLength
+    }
 
 	// create and print horizontal line
 	hline := strings.Repeat("-", hlineLength)
