@@ -123,7 +123,7 @@ func findDay(date string, days []Day) (day Day, found bool) {
 func showUsage() {
     fmt.Println("usage: eat [-options] <location>")
     fmt.Println("Options:")
-    fmt.Println("    -date \tdate of the menu (format: yyyy-mm-dd; default: current date)")
+    fmt.Println("    -d \t\tdate of the menu (format: yyyy-mm-dd; default: current date)")
     fmt.Println("Locations:")
     for _,v := range locations {
         fmt.Println("    "+v)
@@ -131,15 +131,17 @@ func showUsage() {
 }
 
 func main() {
+    // TODO print error messages in the same way
+
     flag.Usage = showUsage
 
-	dateArg := flag.String("date", currentDate.Format(format), "date of the menu")
+	dateArg := flag.String("d", currentDate.Format(format), "date of the menu")
 
 	flag.Parse()
 
 	date, err := time.Parse(format, *dateArg)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Cannot parse date '" + *dateArg + "'. (Required format: yyyy-mm-dd)")
 		os.Exit(1)
 	}
 
