@@ -29,16 +29,21 @@ type Dish struct {
 }
 
 const format = "2006-01-02"
-const api = "https://srehwald.github.io/stwm-mensa-api/"
+
 var locations = map[string]string{
 	"mg": "mensa-garching",
 	"ma": "mensa-arcisstrasse",
 	"sg": "stubistro-grosshadern",
 }
 
+var apis = map[string]string {
+    "mensa-garching": "https://srehwald.github.io/stwm-mensa-api/",
+    "mensa-arcisstrasse": "https://srehwald.github.io/stwm-mensa-api/",
+    "stubistro-grosshadern" :"https://srehwald.github.io/stwm-mensa-api/",
+}
+
 var currentDate = time.Now()
 
-// TODO make more generic for different locations from different APIs
 func getMenu(location string, date time.Time) (*Menu, error) {
 	// convert year to string
 	year := strconv.Itoa(date.Year())
@@ -50,6 +55,8 @@ func getMenu(location string, date time.Time) (*Menu, error) {
 	if len(week) < 2 {
 		week = "0" + week
 	}
+
+    api := apis[location]
 
 	// build url
 	url := api + location + "/" + year + "/" + week + ".json"
