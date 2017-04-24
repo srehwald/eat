@@ -44,6 +44,7 @@ var apis = map[string]string {
 
 var currentDate = time.Now()
 
+// TODO handle errors
 func getMenu(location string, date time.Time) (*Menu, error) {
 	// convert year to string
 	year := strconv.Itoa(date.Year())
@@ -120,16 +121,28 @@ func findDay(date string, days []Day) (day Day, found bool) {
     return day, false
 }
 
-func main() {
-	// TODO show available location in help menu
+func showUsage() {
+    fmt.Println("usage: eat [-options] <location>")
+    fmt.Println("Options:")
+    fmt.Println("    -d \t\tdate of the menu (format: yyyy-mm-dd; default: current date)")
+    fmt.Println("Locations:")
+    for _,v := range locations {
+        fmt.Println("    "+v)
+    }
+}
 
-	dateArg := flag.String("date", currentDate.Format(format), "date of the menu")
+func main() {
+    // TODO print error messages in the same way
+
+    flag.Usage = showUsage
+
+	dateArg := flag.String("d", currentDate.Format(format), "date of the menu")
 
 	flag.Parse()
 
 	date, err := time.Parse(format, *dateArg)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Cannot parse date '" + *dateArg + "'. (Required format: yyyy-mm-dd)")
 		os.Exit(1)
 	}
 
