@@ -44,6 +44,7 @@ var apis = map[string]string {
 
 var currentDate = time.Now()
 
+// TODO handle errors
 func getMenu(location string, date time.Time) (*Menu, error) {
 	// convert year to string
 	year := strconv.Itoa(date.Year())
