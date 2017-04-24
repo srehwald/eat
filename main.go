@@ -120,8 +120,18 @@ func findDay(date string, days []Day) (day Day, found bool) {
     return day, false
 }
 
+func showUsage() {
+    fmt.Println("usage: eat [-options] <location>")
+    fmt.Println("Options:")
+    fmt.Println("    -date \tdate of the menu (format: yyyy-mm-dd; default: current date)")
+    fmt.Println("Locations:")
+    for _,v := range locations {
+        fmt.Println("    "+v)
+    }
+}
+
 func main() {
-	// TODO show available location in help menu
+    flag.Usage = showUsage
 
 	dateArg := flag.String("date", currentDate.Format(format), "date of the menu")
 
