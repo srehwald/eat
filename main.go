@@ -125,9 +125,9 @@ func showUsage() {
     fmt.Println("usage: eat [-options] <location>")
     fmt.Println("Options:")
     fmt.Println("    -d \t\tdate of the menu (format: yyyy-mm-dd; default: current date)")
-    fmt.Println("Locations:")
-    for _,v := range locations {
-        fmt.Println("    "+v)
+    fmt.Println("Locations: <full name> (<short name>)")
+    for k,v := range locations {
+        fmt.Println("    "+ v + " (" + k + ")")
     }
 }
 
