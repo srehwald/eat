@@ -44,7 +44,6 @@ var apis = map[string]string {
 
 var currentDate = time.Now()
 
-// TODO handle errors
 func getMenu(location string, date time.Time) (*Menu, error) {
 	// convert year to string
 	year := strconv.Itoa(date.Year())
@@ -64,13 +63,13 @@ func getMenu(location string, date time.Time) (*Menu, error) {
 	// make GET request
 	res, err := http.Get(url)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 
 	// read response body
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 
 	// parse body into struct
@@ -133,8 +132,6 @@ func showUsage() {
 }
 
 func main() {
-    // TODO print error messages in the same way
-
     flag.Usage = showUsage
 
 	dateArg := flag.String("d", currentDate.Format(format), "date of the menu")
@@ -143,13 +140,13 @@ func main() {
 
 	date, err := time.Parse(format, *dateArg)
 	if err != nil {
-		fmt.Println("Cannot parse date '" + *dateArg + "'. (Required format: yyyy-mm-dd)")
+		fmt.Println("Error: Cannot parse date '" + *dateArg + "'. (Required format: yyyy-mm-dd)")
 		os.Exit(1)
 	}
 
 	args := flag.Args()
 	if len(args) < 1 {
-		fmt.Println("Error: missing location")
+		fmt.Println("Error: Missing location")
 		os.Exit(1)
 	}
 
@@ -158,7 +155,7 @@ func main() {
         // get full location name
         location = locations[location]
     } else if !Contains(location, Values(locations)) {
-		fmt.Println("Location '" + location + "' not found.")
+		fmt.Println("Error: Location '" + location + "' not found.")
 		os.Exit(1)
 	}
 
@@ -174,7 +171,7 @@ func main() {
 	// find correct day given the date
 	day, foundDay := findDay(*dateArg, menu.Days)
 	if !foundDay {
-		fmt.Println("Could not find menu for your date '" + *dateArg + "'.")
+		fmt.Println("Error: Could not find menu for your date '" + *dateArg + "'.")
 		os.Exit(0)
 	}
 
