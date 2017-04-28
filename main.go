@@ -44,7 +44,6 @@ var apis = map[string]string {
 
 var currentDate = time.Now()
 
-// TODO handle errors
 func getMenu(location string, date time.Time) (*Menu, error) {
 	// convert year to string
 	year := strconv.Itoa(date.Year())
@@ -64,13 +63,13 @@ func getMenu(location string, date time.Time) (*Menu, error) {
 	// make GET request
 	res, err := http.Get(url)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 
 	// read response body
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 
 	// parse body into struct
