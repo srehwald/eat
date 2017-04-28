@@ -36,6 +36,7 @@ Locations: <full name> (<short name>)
 ```
 
 #### Examples
+The following examples assume that you added the `eat` executable to your `PATH`. Otherwise you might need to call it with `./eat` (in case you are in the same directory as the executable).
 
 Get the current menu for mensa-garching (You can also use the short name 'mg'):
 ```
