@@ -124,6 +124,7 @@ func findDay(date string, days []Day) (day Day, found bool) {
 func showUsage() {
     fmt.Println("usage: eat [-options] <location>")
     fmt.Println("Options:")
+	fmt.Println("    -h, --help \tshow usage")
     fmt.Println("    -d DATE \tdate of the menu (format: yyyy-mm-dd; default: current date)")
     fmt.Println("Locations: <full name> (<short name>)")
     for k,v := range locations {
