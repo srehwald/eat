@@ -12,6 +12,7 @@ import (
 	"strings"
 )
 
+// some structs representing the menus retrieved from an API
 type Menu struct {
 	Number int16 `json:"number"`
 	Year   int16 `json:"year"`
@@ -28,14 +29,17 @@ type Dish struct {
 	Price interface{} `json:"price"`
 }
 
+// date format for parsing
 const format = "2006-01-02"
 
+// dictionary for mapping short names to full names of locations
 var locations = map[string]string{
 	"mg": "mensa-garching",
 	"ma": "mensa-arcisstrasse",
 	"sg": "stubistro-grosshadern",
 }
 
+// API urls
 var apis = map[string]string {
     "mensa-garching": "https://srehwald.github.io/stwm-mensa-api/",
     "mensa-arcisstrasse": "https://srehwald.github.io/stwm-mensa-api/",
@@ -44,6 +48,9 @@ var apis = map[string]string {
 
 var currentDate = time.Now()
 
+/*
+Retrieve the menu for a given location and date. Returns a Menu struct representing all menus for a specific week.
+ */
 func getMenu(location string, date time.Time) (*Menu, error) {
 	// convert year to string
 	year := strconv.Itoa(date.Year())
@@ -79,6 +86,9 @@ func getMenu(location string, date time.Time) (*Menu, error) {
 	return s, unmarshalErr
 }
 
+/*
+Stringify the dishes of a Day struct. Returns the resulting string as well as the length of the longest line.
+ */
 func dishesToString(day Day) (dishesStr string, maxLength int) {
     for _, dish := range day.Dishes {
         var dishStr string
@@ -110,7 +120,11 @@ func dishesToString(day Day) (dishesStr string, maxLength int) {
     return dishesStr, maxLength
 }
 
+/*
+Find a specific Day given a date
+ */
 func findDay(date string, days []Day) (day Day, found bool) {
+	// loop through all days and compare dates
     for _, d := range days {
         if d.Date == date {
             return d, true
@@ -120,6 +134,9 @@ func findDay(date string, days []Day) (day Day, found bool) {
     return day, false
 }
 
+/*
+Print usage
+ */
 func showUsage() {
     fmt.Println("usage: eat [-options] <location>")
     fmt.Println("Options:")
@@ -131,25 +148,34 @@ func showUsage() {
     }
 }
 
+/*
+MAIN
+ */
 func main() {
+    // override default usage menu
     flag.Usage = showUsage
 
+    // define date option
 	dateArg := flag.String("d", currentDate.Format(format), "date of the menu")
 
+    // parse args and options
 	flag.Parse()
 
+    // parse date option
 	date, err := time.Parse(format, *dateArg)
 	if err != nil {
 		fmt.Println("Error: Cannot parse date '" + *dateArg + "'. (Required format: yyyy-mm-dd)")
 		os.Exit(1)
 	}
 
+    // setting a location is mandatory
 	args := flag.Args()
 	if len(args) < 1 {
 		fmt.Println("Error: Missing location")
 		os.Exit(1)
 	}
 
+    // the first arg will be considered as location
 	location := args[0]
     if Contains(location, Keys(locations)) {
         // get full location name
@@ -162,6 +188,7 @@ func main() {
 	message := "Menu for '" + location + "' on '" + date.Format(format) + "':"
 	fmt.Println(message)
 
+    // get menu for given date and location
 	menu, err := getMenu(location, date)
 	if err != nil {
 		fmt.Println("Error: Could not get menu.")
