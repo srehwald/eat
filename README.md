@@ -5,7 +5,20 @@
 Command line tool for getting the daily menu of different locations written in Go.
 
 ## Build
-Clone this repository into your Go workspace and run `go build` within the directory. Alternatively, you can download one of the precompiled executables in the *releases* section of this repository.
+Clone this repository and run `go build` within the directory. 
+```
+$ git clone https://github.com/srehwald/eat.git
+$ cd eat/
+$ go build
+```
+
+## Available Locations
+By now, the following locations are available:
+- Mensa Garching
+- Mensa Arcisstraße
+- StuBistro Großhadern
+
+Call `eat -h` in order to see the correct names you need to use within the tool.
 
 ## Usage
 
@@ -42,7 +55,7 @@ Gedünsteter Kabeljau (MSC) auf Buchweizen-Rote-Beete-Risotto: 4€
 
 ```
 
-Get the current menu for mensa-arcisstrasse at 2017-04-27:
+Get the current menu for mensa-arcisstrasse on 2017-04-27:
 ```
 $ eat eat -d 2017-04-27 mensa-arcisstrasse
 Menu for 'mensa-arcisstrasse' on '2017-04-27':
