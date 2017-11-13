@@ -1,6 +1,6 @@
 # eat
 
-[![Build Status](https://travis-ci.com/srehwald/eat.svg?token=YUmexXqP9AGj9wNMuDhx&branch=master)](https://travis-ci.com/srehwald/eat)
+[![Build Status](https://travis-ci.org/srehwald/eat.svg?branch=master)](https://travis-ci.org/srehwald/eat)
 
 Command line tool for getting the daily menu of different locations written in Go.
 
@@ -17,6 +17,7 @@ By now, the following locations are available:
 - Mensa Garching
 - Mensa Arcisstraße
 - StuBistro Großhadern
+- FMI Bistro
 
 Call `eat -h` in order to see the correct names you need to use within the tool.
 
@@ -32,6 +33,7 @@ Locations: <full name> (<short name>)
     mensa-garching (mg)
     mensa-arcisstrasse (ma)
     stubistro-grosshadern (sg)
+    fmi-bistro (fmi)
 
 ```
 
