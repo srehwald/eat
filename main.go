@@ -37,13 +37,15 @@ var locations = map[string]string{
 	"mg": "mensa-garching",
 	"ma": "mensa-arcisstrasse",
 	"sg": "stubistro-grosshadern",
+	"fmi": "fmi-bistro",
 }
 
 // API urls
 var apis = map[string]string {
     "mensa-garching": "https://srehwald.github.io/stwm-mensa-api/",
     "mensa-arcisstrasse": "https://srehwald.github.io/stwm-mensa-api/",
-    "stubistro-grosshadern" :"https://srehwald.github.io/stwm-mensa-api/",
+    "stubistro-grosshadern": "https://srehwald.github.io/stwm-mensa-api/",
+    "fmi-bistro": "https://srehwald.github.io/stwm-mensa-api/",
 }
 
 var currentDate = time.Now()
