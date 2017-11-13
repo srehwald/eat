@@ -17,6 +17,7 @@ By now, the following locations are available:
 - Mensa Garching
 - Mensa Arcisstraße
 - StuBistro Großhadern
+- FMI Bistro
 
 Call `eat -h` in order to see the correct names you need to use within the tool.
 
@@ -32,6 +33,7 @@ Locations: <full name> (<short name>)
     mensa-garching (mg)
     mensa-arcisstrasse (ma)
     stubistro-grosshadern (sg)
+    fmi-bistro (fmi)
 
 ```
 
