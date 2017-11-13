@@ -1,6 +1,6 @@
 # eat
 
-[![Build Status](https://travis-ci.com/srehwald/eat.svg?token=YUmexXqP9AGj9wNMuDhx&branch=master)](https://travis-ci.com/srehwald/eat)
+[![Build Status](https://travis-ci.org/srehwald/eat.svg?branch=master)](https://travis-ci.org/srehwald/eat)
 
 Command line tool for getting the daily menu of different locations written in Go.
 
