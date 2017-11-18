@@ -60,7 +60,7 @@ Gedünsteter Kabeljau (MSC) auf Buchweizen-Rote-Beete-Risotto: 4€
 
 Get the current menu for mensa-arcisstrasse on 2017-04-27:
 ```
-$ eat eat -d 2017-04-27 mensa-arcisstrasse
+$ eat -d 2017-04-27 mensa-arcisstrasse
 Menu for 'mensa-arcisstrasse' on '2017-04-27':
 ------------------------------------------------------------------
 Reistopf mit Chinagemüse: 1€
