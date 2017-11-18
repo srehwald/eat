@@ -7,3 +7,13 @@ script:
         go build -v -o eat-$GOOS-$GOARCH;
       done;
     done
+
+deploy:
+  provider: releases
+  api_key:
+    secure: FbICMOoRJcbbXJ/AeM10q+ln+3Go2hSsEOHN+/cmPXHr84ZYBlEipJXShsVLEiDv50tJYyocaFpT0WD3Li7IEwrt68ft62y0f3kDCBBY/GR4jMUg3KeM0tmE5hlO6mFwr+P0nT80CJeKMsd/EjX0Fivnfkwc102DYVWaO36IUDxOWx6MUXGifRXPzC4yM7m5I99V8zL4pgqX0cYLqDsHuK+KpgZFCcTAoriqVwPeJQO+pPIoTWJvYc6sqqBwSLaJF2KP7a7N10xvmahibuR8RSPnLCQo9oRMe/5YSgoUwJw81nZZRiG3jS8ykS0w9SViZmiKQ0vEXsy7n2CA10AIHFzhoQiytqM+l18mR+i2z3//Tare2Ekt6Y0+lYjZC1QIDXGgw+mDUNZd+73D6sJKGgyrc/zgIN3pjwUnxDh8t02dZmE/8wsooTDdf95YnR+di8iYFjbdZ99stkIBiZBdJB90VnYI3SNCXWelVXefaaccvg/WGH3WrqZ/IGMbAVfu1f0Rn5aTuFujzfBQGWQkHkEFUvBF7c+1yYCaNtg+TuUFqVbMpzLqZak3Y0WcsvbGR+eltBoJuqzz8Hj74txux6HGJQqpINYp2oscqC9FUY6SM9+d1zPpzDlE6PeWTamiaSMo5pgB1cnjA35YlmYfWrMT70eV7r66te2iXS4QqNc=
+  file_glob: true
+  file: eat-*
+  skip_cleanup: true
+  on:
+    tags: true
