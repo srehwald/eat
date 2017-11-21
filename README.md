@@ -4,6 +4,8 @@
 
 Command line tool for getting the daily menu of different locations written in Go.
 
+<img src="eat.gif" width="600">
+
 ## Build
 Clone this repository and run `go build` within the directory. 
 ```
