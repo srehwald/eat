@@ -38,6 +38,7 @@ var locations = map[string]string{
 	"ma": "mensa-arcisstrasse",
 	"sg": "stubistro-grosshadern",
 	"fmi": "fmi-bistro",
+	"ipp": "ipp-bistro",
 }
 
 // API urls
@@ -46,6 +47,7 @@ var apis = map[string]string {
     "mensa-arcisstrasse": "https://srehwald.github.io/eat-api/",
     "stubistro-grosshadern": "https://srehwald.github.io/eat-api/",
     "fmi-bistro": "https://srehwald.github.io/eat-api/",
+	"ipp-bistro": "https://srehwald.github.io/eat-api/",
 }
 
 var currentDate = time.Now()
