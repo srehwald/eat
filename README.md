@@ -20,6 +20,7 @@ By now, the following locations are available:
 - Mensa Arcisstraße
 - StuBistro Großhadern
 - FMI Bistro
+- IPP Bistro
 
 Call `eat -h` in order to see the correct names you need to use within the tool.
 
@@ -36,6 +37,7 @@ Locations: <full name> (<short name>)
     mensa-arcisstrasse (ma)
     stubistro-grosshadern (sg)
     fmi-bistro (fmi)
+    ipp-bistro (ipp)
 
 ```
 
