@@ -24,6 +24,8 @@ By now, the following locations are available:
 
 Call `eat -h` in order to see the correct names you need to use within the tool.
 
+This project is using [eat-api](https://github.com/srehwald/eat-api).
+
 ## Usage
 
 Check out the usage menu:
